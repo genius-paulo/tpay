@@ -17,6 +17,10 @@ peewee-async = "0.8.1"
 aiopg = "^1.4.0"
 pytest = "^8.3.3"
 pytest-asyncio = "^0.24.0"
+pylint = "^3.3.2"
+pydantic-settings = "^2.6.1"
+line-profiler = "^4.2.0"
+py-heat = "^0.0.6"
 
 
 [build-system]

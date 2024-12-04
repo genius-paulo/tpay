@@ -1,6 +1,6 @@
 import pytest
-from t_payment.t_payment import TPay
-from config import settings
+from src.t_payment.t_payment import TPay
+from src.config import settings
 
 
 @pytest.fixture
