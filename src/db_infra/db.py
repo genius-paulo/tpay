@@ -1,10 +1,16 @@
 import peewee_async
 from peewee import *
-from loguru import logger
 from src.t_payment.models import Order
 from datetime import datetime
-
+from uuid_extensions import uuid7
 from src.config import settings
+
+from loguru import logger
+
+
+def _create_uuidv7():
+    return uuid7()
+
 
 # Подключение к базе данных PostgreSQL
 db = peewee_async.PostgresqlDatabase(
@@ -16,7 +22,7 @@ db = peewee_async.PostgresqlDatabase(
 
 
 class Orders(Model):
-    id = AutoField(primary_key=True)
+    id = UUIDField(primary_key=True, default=_create_uuidv7)
     amount = IntegerField(null=False)
     customer_key = IntegerField(null=False)
     email = TextField(null=False)
@@ -81,6 +87,17 @@ async def get_orders() -> list:
     elements = list(await _get_conn().execute(Orders.select()))
     logger.debug(f"Get all of objects from db: {elements}")
     return elements
+
+
+async def get_all_orders_by_status(status: str) -> list:
+    """Функция для получения всех заказов в статусе NEW"""
+    db_orders = list(
+        await _get_conn().execute(Orders.select().where(Orders.status == status))
+    )
+    logger.debug(f"Get all of objects by status from db: {db_orders}")
+    orders = [_order_mapping(db_order) for db_order in db_orders]
+    logger.debug(f"Get all of order objects by DB objects: {orders}")
+    return orders
 
 
 async def get_order_by_number(id: int) -> Order:

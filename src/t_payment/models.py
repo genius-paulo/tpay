@@ -64,16 +64,6 @@ class Order(Model):
         self.status = status
         self.created = created
 
-    @classmethod
-    def from_dict(cls, order_dict):
-        """Преобразует элементы словаря, который передает TPay в атрибуты инстанса"""
-        return cls(
-            order_dict["Amount"],
-            order_dict["CustomerKey"],
-            order_dict["Receipt"],
-            order_dict["Description"],
-        )
-
 
 class StatusCode(enum.Enum):
     """Класс статус-кодов, чтобы передавать их в более явном виде.
@@ -90,7 +80,7 @@ class StatusCode(enum.Enum):
     new: str = "NEW"
     confirmed: str = "CONFIRMED"
     rejected: str = "REJECTED"
-    cancelled: str = "CANCELLED"
+    cancelled: str = "CANCELED"
     max_attempts: str = "MAX_ATTEMPTS"
 
 

@@ -21,6 +21,7 @@ pylint = "^3.3.2"
 pydantic-settings = "^2.6.1"
 line-profiler = "^4.2.0"
 py-heat = "^0.0.6"
+uuid7 = "^0.1.0"
 
 
 [build-system]

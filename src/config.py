@@ -42,10 +42,8 @@ class TPaySettings(BaseSettingsWithConfig):
     tax_system: str
     # Задержка между проверками платежа и максимальное число попыток
     # Итоговое время ожидания платежа = delay * max_attempts
-    delay: int = 3
-    max_attempts: int = 100
-    # Количество уже существующих заказов в системе TPay
-    orders_count: int
+    delay: int
+    max_attempts: int
 
 
 class Settings(BaseSettingsWithConfig):

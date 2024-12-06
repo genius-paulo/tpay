@@ -1,18 +1,14 @@
 from httpx import AsyncClient
 from src.config import settings
-from loguru import logger
 import asyncio
 import decimal
 import json
 import hashlib
-import sys
-from src.t_payment.models import StatusCode, Endpoints
 
+from src.t_payment.models import StatusCode, Endpoints
 from src.t_payment.models import Order
 
-logger.remove(0)
-logger.add(sys.stderr, level=settings.logger_level)
-
+from loguru import logger
 
 # TODO: В будущем скорее всего придется делать возврат средств.
 #  Сейчас для этого нет механизма: возвращать деньги и обновлять инфу в бд, нужно вручную.
