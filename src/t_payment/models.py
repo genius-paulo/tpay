@@ -1,5 +1,10 @@
 import datetime
 import enum
+from uuid_extensions import uuid7
+
+
+def _create_uuidv7():
+    return str(uuid7())
 
 
 class Model:
@@ -12,6 +17,25 @@ class Model:
     def __repr__(self):
         state = ["%s=%s" % (k, repr(v)) for (k, v) in vars(self).items()]
         return "%s(%s)" % (self.__class__.__name__, ", ".join(state))
+
+
+class StatusCode(enum.Enum):
+    """Класс статус-кодов, чтобы передавать их в более явном виде.
+    Статусы:
+    — CREATED — платеж создан у нас, но не в TPay
+    — NEW — платеж создан у нас и в TPay
+    — CONFIRMED — платеж совершен успешно
+    — REJECTED — платеж отклонен пользователем или со стороны TPay
+    — CANCELLED — платеж отменен у нас и в TPay
+    — MAX_ATTEMPTS — мы закончили проверять платеж, но его статус неизвестен, нужно уточнять вручную
+    """
+
+    created: str = "CREATED"
+    new: str = "NEW"
+    confirmed: str = "CONFIRMED"
+    rejected: str = "REJECTED"
+    cancelled: str = "CANCELED"
+    max_attempts: str = "MAX_ATTEMPTS"
 
 
 class Order(Model):
@@ -47,8 +71,8 @@ class Order(Model):
         email: str,
         description: str = "Пополнение аккаунта Voicee",
         receipt: str | None = None,
-        status: str = "CREATED",
-        id: int | None = None,
+        status: str = StatusCode.created.value,
+        id: str = _create_uuidv7(),
         url: str | None = None,
         payment_id: str | None = None,
         created: datetime.datetime | None = None,
@@ -63,25 +87,6 @@ class Order(Model):
         self.url = url
         self.status = status
         self.created = created
-
-
-class StatusCode(enum.Enum):
-    """Класс статус-кодов, чтобы передавать их в более явном виде.
-    Статусы:
-    — CREATED — платеж создан у нас, но не в TPay
-    — NEW — платеж создан у нас и в TPay
-    — CONFIRMED — платеж совершен успешно
-    — REJECTED — платеж отклонен пользователем или со стороны TPay
-    — CANCELLED — платеж отменен у нас и в TPay
-    — MAX_ATTEMPTS — мы закончили проверять платеж, но его статус неизвестен, нужно уточнять вручную
-    """
-
-    created: str = "CREATED"
-    new: str = "NEW"
-    confirmed: str = "CONFIRMED"
-    rejected: str = "REJECTED"
-    cancelled: str = "CANCELED"
-    max_attempts: str = "MAX_ATTEMPTS"
 
 
 class Endpoints(enum.Enum):

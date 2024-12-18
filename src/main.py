@@ -1,10 +1,10 @@
 import asyncio
 
 from aiogram import Bot, Dispatcher, executor, types
-from config import settings
-from t_payment import t_payment
-from db_infra import db
-from t_payment.models import StatusCode
+from src.config import settings
+from src.t_payment import t_payment
+from src.db_infra import db
+from src.t_payment.models import StatusCode
 from src.polling import checker
 
 import sys
@@ -67,7 +67,7 @@ async def get_payment_link(message: types.Message) -> None:
         await checker.check_order_status(updated_order, bot)
 
     except Exception as e:
-        logger.info(f"Somethings went wrong: {e}")
+        logger.error(f"Somethings went wrong: {e}")
 
 
 @dp.message_handler()

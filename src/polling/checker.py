@@ -77,7 +77,7 @@ async def cancel_payment(order: Order, bot) -> Order:
     return updated_order
 
 
-async def run_checker() -> None:
+async def run_checker():
     """Запускаем постоянную проверку новых платежей.
     Актуально при перезапуске или в случае сбоев"""
     bot = Bot(token=settings.tg.tg_token)
