@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Extra
 
 
@@ -6,9 +6,9 @@ class BaseSettingsWithConfig(BaseSettings):
     """Родительский класс с настройками .env и экстра-атрибутов.
     Нужен, чтобы унаследовать эти настройки для всех классов настроек дальше"""
 
-    class Config:
-        env_file = "../.env"
-        extra = Extra.allow
+    model_config = SettingsConfigDict(
+        env_file="../.env", env_file_encoding="utf-8", extra="allow"
+    )
 
 
 class TgSettings(BaseSettingsWithConfig):

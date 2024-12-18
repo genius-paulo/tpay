@@ -100,7 +100,7 @@ async def get_all_orders_by_status(status: str) -> list:
     return orders
 
 
-async def get_order_by_number(id: int) -> Order:
+async def get_order_by_number(id: str) -> Order:
     """Функция для получения платежа из БД по номеру"""
     try:
         order_db = await _get_conn().get(Orders, id=id)
